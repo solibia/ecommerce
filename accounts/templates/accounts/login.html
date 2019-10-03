@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Connexion</h1>
+    <form method='POST'> {% csrf_token %}
+      {{ form }}
+         
+        <p style="margin-bottom:0.25cm;"></p>
+    
+        <div class="col-md-2" >
+            <button type='submit' class='btn btn-default'>Se connecter</button>
+        </div>
+    </form>
+        <p style="margin-bottom:0.5cm;"></p>
+        <div class="col-md-6" >
+    <ul class="aa-head-top-nav-right">
+      <li><a href="{{ register_url }}"><h6>Nouveau client? S'enregistrer.<h6></a></li>
+    </ul>
+  </div>
+    
+{% endblock %}

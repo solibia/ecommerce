@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>Cart</h1>
+{% if cart.products.exists %}
+<table class="table cart-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Designation</th>
+      <th>PU</th>
+      <th>Qte</th>
+      <th>PT</th>
+    </tr>
+  </thead>
+  <tbody class='cart-body'>
+    {% for cart_product in cart_products %}
+    <tr class='cart-product'>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>
+          <a href='{{ cart_product.product.get_absolute_url }}'>{{ cart_product.product.title }}</a> 
+      </td>
+      <td name="prix" id="prix">{{ cart_product.product.price }}</td>
+
+      <td>
+        <form name='filter' method=POST action='{% url "cart:update" %}'> {% csrf_token %}
+            <input type='hidden' name='product_id' value='{{ cart_product.product.id }}' />
+            <select id="qte_update" name="qte" onChange="form.submit();">
+                <option selected="selected">{{ cart_product.qte }}</option>
+                {% for i in '0123456789' %}
+                    <option value={{ i }}>{{ i }}</option>
+                {% endfor %}
+            </select>
+        </form>
+      </td>
+      
+      <td>{% widthratio cart_product.qte 1 cart_product.product.price %}</td>
+      
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="2"></td>
+      <td><b>Sous total VND</b></span></td>
+      <td colspan="1"></td>
+      <td><span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
+    </tr>
+
+    
+    <tr>
+      <td colspan="2"></td>
+      <td><b>Total VND</b> </td>
+      <td colspan="1"></td>
+      <td><span class='cart-subtotal'>{{ cart.total }}</span></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+<div class='cart-item-remove-form' style='display:none'>
+
+    {% include 'carts/snippets/remove-product.html' %}
+</div>
+
+{% else %}
+<p class='lead'>Cart is empty</p>
+{% endif %}
+
+  <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">                      
+        <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4>Modification de la quantité</h4>
+          <form class="aa-login-form" action="">
+            <label for="">Nouvelle quantité<span>*</span></label>
+            <input type="number" name='qte' value='{{ product_id }}'>
+            <button class="aa-browse-btn" type="submit">Valider</button>
+          </form>
+        </div>                        
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>    
+
+<script>
+    document.getElementById('pqte').onchange = function() {
+        alert(document.getElementById('pqte').value);
+        alert(document.getElementById('product_id').value);
+    };
+</script>    
+
+
+{% endblock %}

@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+  <section id="aa-popular-category">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="aa-popular-category-area">
+              <!-- start prduct navigation -->
+             <ul class="nav nav-tabs aa-products-tab">
+                <li class="active"><a href="#popular" data-toggle="tab">populaire</a></li>
+            </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <!-- Start men popular category -->
+                <div class="tab-pane fade in active" id="popular">
+                  <ul class="aa-product-catg aa-popular-slider">
+                    <!-- start single product item -->
+                    {% for produit in object_list %}
+                    <!--{{ forloop.counter }} -->
+                    <li>
+                      <figure>
+                        <a class="aa-product-img" href="#"> <img src="{{ produit.image.url }} " alt="img"> 
+                        {% if request.user.is_authenticated %}
+
+                            {% if produit.qte > 0 %}
+                            <form method='POST' action='{% url "cart:update" %}' data-endpoint='{% url "cart:update" %}' class="form" {% if request.user.is_authenticated %}data-user='abc'{% endif %}> {% csrf_token %}
+                                <input type='hidden' name='product_id' value='{{ produit.id }}' {% if  produit.is_digital %}data-is-digital='true'{% endif%}/>
+                                <input type='hidden' name='qte' value='1'/>
+                                  <span class="fa fa-shopping-cart">
+                                    <button type='submit'  class="aa-add-card-btn">Add to cart </button>
+                                </span>
+                            </form>
+
+                            {% else %}
+                            
+                            <a class="aa-add-card-btn" href="#" > <span class="fa fa-shopping-cart"></span>Non disponible</a>
+
+                            {% endif %}   
+                          
+                        {% endif %}     
+                        {% if not request.user.is_authenticated %}
+                            <a class="aa-add-card-btn" href="{% url 'login' %}" > <span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                        {% endif %}                                        
+                         <figcaption>
+                          <h4 class="aa-product-title"><a href="#">{{ produit.title }}</a></h4>
+                          <span class="aa-product-price">{{ produit.price }} d</span>
+                        </figcaption>
+                      </figure>                     
+                      <div class="aa-product-hvr-content">
+                        <a href="{{ instance.get_absolute_url }}" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
+                      </div>
+                      <!-- product badge -->
+                      <span class="aa-badge aa-sale" href="#">SALE!</span>
+                    </li>
+                    {% if forloop.counter|divisibleby:4 %}
+                        <br><br/>
+                    {% endif %}
+                     <!-- start single product item -->
+                    {% empty %}
+                        <div>Aucun article!</div>
+                    {% endfor %} 
+                  </ul>
+                </div>
+                <!-- / latest product category -->              
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

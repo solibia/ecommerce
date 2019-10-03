@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Enregistrement</h1>
+    <form method='POST'> {% csrf_token %}
+    
+   <div class="row">
+        <div class="col-md-2" >
+             Nom    
+        </div>
+         <div class="col-md-4" >
+              {{ form.full_name }}
+        </div>
+        <div class="col-md-2" >
+             Email     
+        </div>
+         <div class="col-md-4" >
+              {{ form.email }}
+        </div>
+    </div>
+         <p style="margin-bottom:0.5cm;"></p>
+
+   <div class="row">
+        <div class="col-md-2" >
+             Mot de passe
+        </div>
+         <div class="col-md-4" >
+             {{ form.password1 }}
+        </div>
+        <div class="col-md-2" >
+             Confirmer mot de passe
+        </div>
+         <div class="col-md-4" >
+            {{ form.password2 }}
+        </div>
+    </div>
+
+    </div>     
+      <p style="margin-bottom:0.5cm;"></p>
+
+    <div>
+        <div class="col-md-2" >
+          <a href="{{ login_url }}"><h6>Se connecter<h6></a>
+        </div>
+        <div class="col-md-4" >
+            <button type='submit' class='btn btn-default'>Enregistrer</button>          
+        </div>
+    </div>
+
+    </form>
+
+{% endblock %}

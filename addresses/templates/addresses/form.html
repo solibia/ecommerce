@@ -1,0 +1,83 @@
+<form  method='POST' action='{% if action_url %}{{ action_url }}{% else %}{% url "login" %}{% endif %}'> {% csrf_token %}
+    {% if next_url %}
+        <input type='hidden' name='next' value='{{ next_url }}' />
+    {% endif %}
+
+    {% if address_type %}
+        <input type='hidden' name='address_type' value='{{ address_type }}' />
+    {% endif %}
+    
+    
+   <div class="row">
+        <div class="col-md-2" >
+             Prénom    
+        </div>
+         <div class="col-md-4" >
+              {{ form.nickname }}
+        </div>
+        <div class="col-md-2" >
+             Nom     
+        </div>
+         <div class="col-md-4" >
+              {{ form.name }}
+        </div>
+    </div>
+         <p style="margin-bottom:0.5cm;"></p>
+
+   <div class="row">
+        <div class="col-md-2" >
+             Adresse 1
+        </div>
+         <div class="col-md-4" >
+             {{ form.address_line_1 }}
+        </div>
+        <div class="col-md-2" >
+             Adresse 2
+        </div>
+         <div class="col-md-4" >
+            {{ form.address_line_2 }}
+        </div>
+    </div>
+
+         <p style="margin-bottom:0.5cm;"></p>
+
+   <div class="row">
+        <div class="col-md-2" >
+             Ville
+        </div>
+         <div class="col-md-4" >
+            {{ form.city }}
+         </div>
+        <div class="col-md-2" >
+             Pays     
+        </div>
+         <div class="col-md-4" >
+             {{ form.country }}
+        </div>
+    </div> 
+         <p style="margin-bottom:0.5cm;"></p>
+   <div class="row">
+        <div class="col-md-2" >
+             Commune
+        </div>
+         <div class="col-md-4" >
+            {{ form.state }}
+         </div>
+
+        <div class="col-md-2" >
+             Code postal
+        </div>
+         <div class="col-md-4" >
+            {{ form.postal_code }}
+         </div>
+
+    </div>     
+      <p style="margin-bottom:0.5cm;"></p>
+
+
+    <div class="col-md-6" >
+        <button type='submit' class='btn btn-default'>Submit</button>
+    </div>
+     
+</form>
+
